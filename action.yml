@@ -1,0 +1,30 @@
+name: 'Jenkins: Build Job'
+description: 'Builds a Jenkins job, returning its result.'
+branding:
+  icon: 'activity'
+  color: 'red'
+inputs:
+  job_url:
+    description: 'URL for the job. i.e. http://jenkins.infrastructure.company.io/job/build/job/test'
+    required: true
+  jenkins_token:
+    description: 'Jekins API Token. 34 characters.'
+    required: true
+  jenkins_user:
+    description: 'Your Jenkins User ID.'
+    required: true
+  job_params:
+    description: 'JSON string of job parameters. i.e "{"foo": "bar", "baz": true, "qux": 3}" '
+    required: false
+    default: "{}"
+outputs:
+  build_result:
+    description: 'Build result'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.job_url}}
+    - ${{ inputs.jenkins_token}}
+    - ${{ inputs.jenkins_user}}
+    - ${{ inputs.job_params}}
